@@ -2,8 +2,8 @@
 module.exports = {
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
-  url: 'https://eukarya-inc.github.io',
-  baseUrl: '/apllodb-doc/',
+  url: 'https://turbo-memory-1c1e0d18.pages.github.io',
+  baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
