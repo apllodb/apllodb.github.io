@@ -5,13 +5,13 @@ const katex = require('rehype-katex');
 module.exports = {
   title: 'My Site',
   tagline: 'Dinosaurs are cool',
-  url: 'https://turbo-memory-1c1e0d18.pages.github.io',
+  url: 'https://apllodb.github.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico',
-  organizationName: 'eukarya-inc', // Usually your GitHub org/user name.
-  projectName: 'apllodb-doc', // Usually your repo name.
+  organizationName: 'apllodb', // Usually your GitHub org/user name.
+  projectName: 'apllodb.github.io', // Usually your repo name.
   themeConfig: {
     navbar: {
       title: 'My Site',
