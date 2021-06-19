@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 100
 ---
 
 # バージョン・アップグレード に関する定義・定理
