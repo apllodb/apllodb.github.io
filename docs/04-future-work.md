@@ -10,6 +10,7 @@ slug: /future-work/
 - バージョンが乱立してしまう -> upgrade 案内, auto-upgrade
   - スライドから図を取る
 - 旧バージョンへ入れ続けるclientへの警告
+- DROPしたテーブルの復旧
 
 ## Immutable DML を有効活用する機能
 
