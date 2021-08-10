@@ -5,9 +5,10 @@ slug: /ImmutableSchema/
 
 # Immutable Schema
 
-- イントロ最後からのつなぎ
-- Immutable DDL, Immutable DML をさらりと
-- 利点はイントロで述べたとおり。ここでは内容に触れる。
+[イントロダクション](02-introduction.md) で述べたように、Immutable SchemaはImmutable DDLとImmutable DMLから成ります。
+Immutable Schemaは、デジタル資料管理のために既に追加したデータ（レコード）を破壊せず、データの観察により得られた新たな情報の整理を可能にします。
+
+この章ではImmutable DDLとImmutable DMLの仕様と、v0.1 における実装手法について説明します。
 
 ## Immutable DDLの概要
 
