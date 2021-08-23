@@ -31,11 +31,19 @@ module.exports = {
           label: 'GitHub',
           position: 'right',
         },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
       ],
     },
     footer: {
       style: 'dark',
       copyright: `Copyright © ${new Date().getFullYear()} Eukarya, Inc. Built with Docusaurus.`,
+    },
+    i18n: {
+      defaultLocale: 'ja',
+      locales: ['ja', 'en'],
     },
   },
   presets: [
