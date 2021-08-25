@@ -12,6 +12,10 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'apllodb', // Usually your GitHub org/user name.
   projectName: 'apllodb.github.io', // Usually your repo name.
+  i18n: {
+    defaultLocale: 'ja',
+    locales: ['ja', 'en'],
+  },
   themeConfig: {
     navbar: {
       title: 'apllodb',
@@ -29,6 +33,10 @@ module.exports = {
         {
           href: 'https://github.com/apllodb/apllodb',
           label: 'GitHub',
+          position: 'right',
+        },
+        {
+          type: 'localeDropdown',
           position: 'right',
         },
       ],
