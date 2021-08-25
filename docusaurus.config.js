@@ -12,6 +12,10 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'apllodb', // Usually your GitHub org/user name.
   projectName: 'apllodb.github.io', // Usually your repo name.
+  i18n: {
+    defaultLocale: 'ja',
+    locales: ['ja', 'en'],
+  },
   themeConfig: {
     navbar: {
       title: 'apllodb',
@@ -40,10 +44,6 @@ module.exports = {
     footer: {
       style: 'dark',
       copyright: `Copyright © ${new Date().getFullYear()} Eukarya, Inc. Built with Docusaurus.`,
-    },
-    i18n: {
-      defaultLocale: 'ja',
-      locales: ['ja', 'en'],
     },
   },
   presets: [
