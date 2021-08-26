@@ -3,8 +3,8 @@ sidebar_position: 1
 slug: /
 ---
 
-# apllodb document
+# apllodb documentation
 
-This doc! このドキュメントでは、apllodb のユースケースや機能、更に仕様の概要や一部の実装詳細などを解説します。
+This document describes the use cases and features of apllodb, as well as an overview of the specification and some implementation details.
 
-apllodb を使ってみたい場合は[リポジトリ](https://github.com/apllodb/apllodb)を参照してください。
+If you are interested in using apllodb, please refer to the [repository](https://github.com/apllodb/apllodb).
