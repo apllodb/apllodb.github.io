@@ -3,92 +3,85 @@ sidebar_position: 2
 slug: /introduction/
 ---
 
-# イントロダクション
+# Introduction
 
-## apllodb は何のためのデータベースか
+## What is apllodb a database for?
 
-apllodbは、 **デジタル資料管理** に特化したデータベースです。
+apllodb is a database dedicated to **digital document management**.
 
-デジタル資料管理というのは造語で、[デジタルアーカイブ](https://ja.wikipedia.org/wiki/%E3%83%87%E3%82%B8%E3%82%BF%E3%83%AB%E3%82%A2%E3%83%BC%E3%82%AB%E3%82%A4%E3%83%96)や、より小規模の資料の管理（作成・検索・使用）全般を指しています。
-デジタル資料管理の中でも、資料がまだアナログな状態で保管されており、これからデジタルデータにしていくケースにapllodbは役立ちます。
-アナログデータをデジタル化する目的は、資料保管スペースの削減もありますが、多くの場合は可視化・検索・集計などの応用があるのではないでしょうか。
-応用を見据えてデータ化する場合、情報整理をしながらデータを蓄積し、データを **構造化** していく必要があります。
-構造化にはいろいろな手法がありますが、アプリケーションプログラムからも人間からも扱いやすい構造化として、関係代数のモデルがあります。関係代数というと難しく聞こえますが、要するにテーブル構造を使った構造化です。Excelやスプレッドシートを思い浮かべると近いと思います。
+The term "digital document management" includes [digital archives](https://en.wikipedia.org/wiki/Digital_Archives) and simpler document management (creation, retrieval, and use).
+In digital document management, apllodb is useful in cases where document are still stored in analog form and will be converted to digital data.
+The purpose of translating analog data into digital is not only to reduce the space to keep them, but also to make applications (visualizing, searching, and aggregating) from the data.
+When considering making applications from digital data, it is necessary to accumulate data while organizing the information, and to make **structured** data.
+There are various methods for structuring, but the relational algebra model is one that is easy to handle for both application programs and humans. Relational algebra model is similar to table structures like those in Excel or spreadsheets.
 
-アナログデータをテーブル構造に落とし込むというのは、いつでも簡単なわけではないです。
-書籍などの元データがきっちりと構造化されてれば良いですが、例えば以下のようにフラットに記述されていることも多いでしょう。
+It's not always easy to put analog data into a table structure.
+It is good if the original data, such as books, is well structured, but often it is written flat like follows.
 
-> アルベルト・アインシュタイン[† 1]（独: Albert Einstein[† 2][† 3][1][2]、1879年3月14日 - 1955年4月18日）は、ドイツ生まれの理論物理学者である。
-> 特殊相対性理論および一般相対性理論、相対性宇宙論、ブラウン運動の起源を説明する揺動散逸定理、光量子仮説による光の粒子と波動の二重性、アインシュタインの固体比熱理論、零点エネルギー、半古典型のシュレディンガー方程式、ボーズ＝アインシュタイン凝縮などを提唱した業績で知られる。
-> それまでの物理学の認識を根本から変え、「20世紀最高の物理学者」とも評される。特殊相対性理論、一般相対性理論が有名だが、光量子仮説に基づく光電効果の理論的解明によって1921年のノーベル物理学賞を受賞した。
+> Albert Einstein; 14 March 1879 – 18 April 1955) was a German-born theoretical physicist,[5] widely acknowledged to be one of the greatest physicists of all time. Einstein is known for developing the theory of relativity, but he also made important contributions to the development of the theory of quantum mechanics. Relativity and quantum mechanics are together the two pillars of modern physics.[3][6] His mass–energy equivalence formula E = mc2, which arises from relativity theory, has been dubbed "the world's most famous equation".[7] His work is also known for its influence on the philosophy of science.[8][9] He received the 1921 Nobel Prize in Physics "for his services to theoretical physics, and especially for his discovery of the law of the photoelectric effect",[10] a pivotal step in the development of quantum theory. His intellectual achievements and originality resulted in "Einstein" becoming synonymous with "genius".[11]
 
-_([Wikipedia](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%83%AB%E3%83%99%E3%83%AB%E3%83%88%E3%83%BB%E3%82%A2%E3%82%A4%E3%83%B3%E3%82%B7%E3%83%A5%E3%82%BF%E3%82%A4%E3%83%B3)より引用)_
+_(Quoted from [Wikipedia](https://en.wikipedia.org/wiki/Albert_Einstein) )_
 
-この記述から構造を見出し、
+You may find some structure from the above description and abstract the following columns:
 
-- 人物名
-- 生年月日
-- 没年月日
-- 出身地
-- 分野
-- 主な功績1
+- Name
+- Date of birth
+- Date of death
+- Birthplace
+- Academic field
+- Major achievement 1
 - ...
-- 主な功績8
-- 受賞歴
+- Major achievement 5
+- Awards
 
-というようなカラムを作成したとします。
+However, you may find another description from the same or a different document:
 
-しかし同じ資料の別ページ、または別の資料に、次のような記述がありました。
+> Sir Isaac Newton PRS (25 December 1642 – 20 March 1726/27[a]) was an English mathematician, physicist, astronomer, theologian, and author (described in his time as a "natural philosopher") who is widely recognised as one of the greatest mathematicians and most influential scientists of all time. His book Philosophiæ Naturalis Principia Mathematica (Mathematical Principles of Natural Philosophy), first published in 1687, established classical mechanics. Newton also made seminal contributions to optics, and shares credit with German mathematician Gottfried Wilhelm Leibniz for developing infinitesimal calculus.
 
-> サー・アイザック・ニュートン（英: Sir Isaac Newton、1642年12月25日 - 1727年3月20日、グレゴリオ暦：1643年1月4日 - 1727年3月31日[注 1]）は、イングランドの自然哲学者、数学者、物理学者、天文学者、神学者。
-> 主な業績としてニュートン力学の確立や微積分法の発見がある。1717年に造幣局長としてニュートン比価および兌換率を定めた。ナポレオン戦争による兌換停止を経て、1821年5月イングランド銀行はニュートン兌換率により兌換を再開した。
+_(Quoted from [Wikipedia](https://en.wikipedia.org/wiki/Isaac_Newton) )_
 
-_([Wikipedia](https://ja.wikipedia.org/wiki/%E3%82%A2%E3%82%A4%E3%82%B6%E3%83%83%E3%82%AF%E3%83%BB%E3%83%8B%E3%83%A5%E3%83%BC%E3%83%88%E3%83%B3)より引用)_
+Here we can see that one `Academic field` column is not enough, and in some cases we may also want a `job history` column.
+When digitizing analog data, it is difficult to determine the structure from the beginning. It is often necessary to modify the structure while looking at the data.
 
-ここで `分野` カラムが1つでは足りないことや、場合によっては `職歴` のカラムもほしくなることがわかります。
-アナログデータをデジタル化する際、「構造を最初から決定する」ことは難しく、「データを見ながら構造を修正していく」作業が必要となることが多いでしょう。
+Databases that utilize relational algebraic models (tables) are called RDBMS (Relational Database Management System).
+A normal RDBMS is not designed to change the table structure frequently.
+It is difficult to add a column to a table that already contains records (especially in case of columns with NOT NULL and without default values). Also, when you think a certain column is not necessary for future records and you drop the column, values of the column in the existing record will disappear.
+In other words, existing RDBMSs are not suitable for applications in which humans design table structure by trial and error while accumulating data.
 
-データベースの中で関係代数モデル（テーブル）でデータを構造化するものは、RDBMS (Relational Database Management System) と呼ばれます。
-通常のRDBMSは、テーブル構造を頻繁に変更することを想定した作りにはなっていません。
-既にテーブルにレコードが入っている場合にカラムを追加するのは困難（空欄非許容・デフォルト値なしの場合）ですし、今後のレコードについてはあるカラムが不要だと判断してカラムを削除した場合、既存レコードのカラムの値まで消えてしまいます。
-人間がデータを蓄積しながら試行錯誤して情報設計していく用途には、既存のRDBMSは不向きだと言えます。
+apllodb is an RDBMS for exactly this kind of use.
 
-apllodbはまさにこのような用途のためのRDBMSです。
+## Overview of apllodb
 
-## apllodb のデータベースとしての概要
+As mentioned above, apllodb is an RDBMS.
+The reasons for adopting RDBMS architecture are as follows.
 
-前述の通り、apllodbはRDBMSのひとつです。
-RDBMSのアーキテクチャを採用した理由は以下のとおりです。
+1. Table structure is easy to handle for both people who add data in digital document management and application developers who use the data for applications.
+2. RDBMSs have a standard query language called SQL (a language for searching and aggregating data), which makes it easy to perform ad hoc analysis as well as application development.
+3. Many RDBMSs have the concept of transactions, which means that even if a database system or computer gets broken while storing data, the data will be consistent (either all will disappear or all will remain).
 
-1. テーブル構造によるデータモデルが、デジタル資料管理においてデータを追加する人にとっても、データを応用に使うアプリケーション開発者にとっても扱いやすい。
-2. RDBMSにはSQLという標準的なクエリ言語（データを検索・集計するための言語）があり、アプリケーションだけでなくアドホックな分析もSQLを通じて簡便に行える。
-3. 多くのRDBMSにはトランザクションの概念があり、データの保存時にデータべースシステムやコンピューターの故障に見舞われても、データに一貫性がある（半端な状態のデータが残らず、全て消えるか全て残るかのどちらか）。
+However, RDBMSs are not suitable for applications where you have to make trial and error on the table structures while adding data.
+Therefore, apllodb has added the concept of **Immutable Schema** to RDBMS.
 
-ただしこれまた前述の通り、ただのRDBMSではデータを追加しながらテーブルの構造を試行錯誤する用途には不向きです。
-そのため、apllodbはRDBMSに **Immutable Schema** という概念を付け加えました。
+Although there are other important characteristics for digital document management besides frequent changes in table structures, we focused on Immutable Schema in the initial version v0.1.
+The characteristics that we will focus on supporting in the future are summarized in [Future Development Plan](04-future-work.md).
 
-テーブル構造の頻繁な変更以外にもデジタル資料管理で重要な特性はありますが、初期バージョンの v0.1 においてはまずは Immutable Schema に注力して開発しました。
-今後力を入れてサポートしていく特性については [今後の開発方針](04-future-work.md) にまとめています。
+## What is Immutable Schema?
 
-## Immutable Schema とは
+In a normal RDBMS, table operations (creating, modifying, and deleting table structures) and record operations (inserting, updating, and deleting records) are mutable. Once a table or record is modified or deleted, it is essentially irreversible.
+Immutable Schema makes these operations immutable.
 
-通常のRDBMSにおいては、テーブル操作（テーブル構造の作成・変更・削除）やレコード操作（レコードの追加・更新・削除）はミュータブル、つまり破壊的です。テーブルやレコードを変更や削除すると、基本的には元に戻せません。
-Immutable Schema ではこれらの操作をイミュータブル、つまり非破壊的に行います。
+This is not just keeping a backup before modifications.
+For example, consider deleting one column when there are already records in a table.
+A normal mutable RDBMS will erase the value of the column to be deleted for all records.
+How can we do this in an immutable way?
+In the Immutable Schema, the table structure and records are kept, and a new table structure is created after the column deletion as follows:
 
-これは単に「変更前のバックアップを残しておく」というだけのことではありません。
-例えばあるテーブルに既にレコードが存在する時、カラムを1つ削除することを考えます。
-通常のミュータブルなRDBMSは、削除するカラムの値を全レコードについて消去してしまいます。
-これをイミュータブルに行うにはどうすればよいでしょうか。
-Immutable Schema の枠組みでは、
+- Leave the table structure and records before the column deletion, and
+- create a new table structure after the column deletion, and
+- the subsequent records will be added to the new table definition (if possible).
 
-- カラム削除前のテーブル構造とレコードを残しておき、
-- カラム削除後のテーブル構造を新たに作成し、
-- 次回以降のレコードは（可能であれば）新しいテーブル定義の方に追加する。
+In the RDBMS world, table operations are called DDL, so the immutable table structure changes described above are called **Immutable DDL**.
+Similarly, we call the immutable record operations **Immutable DML**.
+With Immutable DML, even after updating the column values of a record, it is possible to revert to the values before the update, or recover a record that has been deleted.
 
-という挙動をし、元のテーブル構造やレコードを非破壊にテーブル構造の変更を実現します。
-
-RDBMSの世界ではテーブル操作をDDLと呼ぶので、上述のイミュータブルなテーブル構造の変更を **Immutable DDL** と呼びます。
-同様に、イミュータブルなレコード操作については **Immutable DML** と呼びます。
-Immutable DMLにより、あるレコードのカラム値を更新してしまった後も、更新前の値に戻すことができたり、削除してしまったレコードを復旧することができます。
-
-Immutable Schemaは、Immutable DDLとImmutable DMLを総称したもので、apllodbの主な特徴となります。
+Immutable Schema contains Immutable DDL and Immutable DML, and is the main feature of apllodb.
