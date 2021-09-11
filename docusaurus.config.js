@@ -15,7 +15,7 @@ module.exports = {
   },
   themeConfig: {
     navbar: {
-      title: 'apllodb',
+      // title: 'apllodb', // Logo shows the name
       logo: {
         alt: 'apllodb Logo',
         src: 'img/logo.svg',
