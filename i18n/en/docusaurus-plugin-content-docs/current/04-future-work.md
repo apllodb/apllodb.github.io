@@ -3,80 +3,80 @@ sidebar_position: 4
 slug: /future-work/
 ---
 
-# 今後の開発方針
+# Future Development Plan
 
-## Immutable DDL の改善
+## Improve Immutable DDL
 
-### バージョンが増えすぎない工夫
+### Keep small number of versions
 
-現在のImmutable DDLの枠組みでは、 `ALTER TABLE` を発行するたびにバージョン番号が増えていき、かつ古いバージョンのレコードは古いバージョンに入ったままになります。
-バージョンの数があまりにも増えると、テーブルの全バージョンを通してどの名前のカラムが存在しているのか、頭の中で管理しきれなくなると予想します。
-（かつ、システム的にもパフォーマンスの劣化が激しくなる）
+In the current framework of Immutable DDL, each time you issue `ALTER TABLE`, the version number increases, and yet the records in the older version remain in the older version.
+If the number of versions increases too much, we expect that we will not be able to keep track of which named columns are present in all versions of the table.
+(And, systemically, there will be severe performance degradation.
 
-デジタル資料管理において、データに合わせてテーブル構造を気軽に変更していくのは有益と考えますが、あまりにもテーブル構造の種類が多くなってしまうのはかえってデータの管理を煩雑にします。
-システムとしてバージョンの数を抑える工夫は重要と考え、以下のような開発を計画しています。
+In digital document management, it is beneficial to casually change the table structure according to the data, but too many different table structures will make data management more complicated.
+We believe that it is important to limit the number of versions of the system, and we are planning to develop the following.
 
-#### アップグレード
+#### Upgrade
 
-アップグレードとは、「あるバージョンのレコードを、より大きなバージョンに移す」ことを指します。
-例えば `v1` から全てのレコードを `v2` にアップグレードできたら、 `v1` のことは今後気にする必要はありません。
+Upgrading means "moving records from one version to a larger version".
+For example, if you can upgrade all records from `v1` to `v2`, you don't need to worry about `v1` in the future.
 
-![アップグレード](/img/immutable-ddl-upgrade.jp.png)
+![upgrade](/img/immutable-ddl-upgrade.en.png)
 
-上図においては、 `v1` のレコードそのままでは `v2` とは構造が合わず (`c2` カラムが存在しない) アップグレードできませんが、`v2` に移行する際のカラム値を指定することで明示的にアップグレードを実現しています。
+In the above figure, the structure of the `v1` record does not match that of `v2` (the `c2` column does not exist), so it cannot be upgraded, but the upgrade is explicitly achieved by specifying the column values to be used when migrating to `v2`.
 
-#### アップグレードサジェスト
+#### Upgrade suggestion
 
-ある古いバージョンのレコードを閲覧し、「このカラムの値を埋めればアップグレードできます」のようにサジェストをし、アップグレードを促す機能を検討しています。
+We are considering a function that will browse records of a certain old version and give suggestions like "You can upgrade by filling in the values in this column" to encourage upgrading.
 
-#### 自動アップグレード
+#### Auto-upgrade
 
-特定の状況における `ALTER TABLE` では、古くなったバージョンのレコードをそのまま新しいバージョンにアップグレードすることができます。
-これを自動アップグレードと呼ぶ機能で実現することを検討しています。
+In certain situations `ALTER TABLE` can upgrade records from an outdated version to a newer version without modification.
+We are looking at doing this with a feature we call automatic upgrade.
 
-![自動アップグレード](/img/immutable-ddl-auto-upgrade.jp.png)
+![auto-upgrade](/img/immutable-ddl-auto-upgrade.en.png)
 
-#### 古いバージョンへのINSERTに対する警告
+#### Warnings to INSERT into old versions
 
-人間が（CMS経由やSQL直打ちで）apllodbに `INSERT` 文を発行する際は、基本的には最新バージョンのテーブル定義を対象したSQLになることを想定しています。
-一方で、データの追加をプログラムなどで自動化している場合には、`ALTER TABLE` を考慮していない `INSERT` 文が発行され続けることも予想されます。
-この状況では、たとえ一時点で古いバージョンからレコードが消えたとしても、古いバージョンへの `INSERT` が発生した時点で再びレコードが入り、いつまでも古いバージョンのことを考慮する必要が出てきます。
+When a human being issues an `INSERT` statement to apllodb (via CMS or direct SQL), it is basically assumed that the SQL will be for the latest version of the table definition.
+On the other hand, if adding data is automated programmatically, it is expected that `INSERT` statements that do not take `ALTER TABLE` into account will continue to be issued.
+In this situation, even if records are lost from the old version at some point, they will be reintroduced when an `INSERT` to the old version occurs, and the old version will need to be taken into account forever.
 
-これを避けるために、古いバージョンへの `INSERT` に対して警告を発する機能を検討しています。
-クライアントプログラムが理解できる形式で警告をし、クライアント側のハンドリングに委ねることや、クライアントが望むならエラーとして返却することを検討しています。
+To avoid this, we are considering a feature to issue a warning for `INSERT` to an older version.
+We are considering giving the warning in a format that the client program can understand, and leaving it to the client to handle, or returning it as an error if the client wishes.
 
-#### DROPしたテーブルの復旧
+#### Restoring DROP-ed tables
 
-Immutable DDLにおいては、 `DROP TABLE` を発行しても、最新バージョンが deactivated とマークされるだけです。
-過去のバージョンのテーブル定義やレコードは全てストレージに残っています。
-DROPしたテーブルを復旧する機能を提供することを計画しています。
+In Immutable DDL, issuing a `DROP TABLE` will only mark the latest version as deactivated.
+All table definitions and records from previous versions are still in storage.
+We are planning to provide a feature to recover DROP-ed tables.
 
-## Immutable DML を有効活用する機能
+## Better utilize Immutable DML
 
-`UPDATE` や `DELETE` を発行しても、Immutable DML においては、更新・削除前のレコードがリビジョンとして残ります。
-デジタル資料管理においては、レコードを修正・削除前に戻したくなることが多いと考え、レコード単位の復旧機能や変更履歴の確認機能を提供することを検討しています。
+Even if you issue `UPDATE` or `DELETE`, the record before the update or deletion remains as a revision in Immutable DML.
+We believe that in digital document management, we often want to restore records to the way they were before they were modified or deleted, so we are considering providing record-by-record recovery and change history viewing functions.
 
-このようなレコード単位の復旧や履歴閲覧は、通常はアプリケーション層で実現されることが多いですが、デジタル資料管理に特化した apllodb ではデータベース層でこの機能を実現することに意義があると考えます。
+We are considering to provide a function to recover each record and to check the change history. Such functions are usually implemented in the application layer, but in apllodb, which specializes in digital document management, we think it is meaningful to implement such functions in the database layer.
 
-## RDBMSとしての基礎力向上
+## Improve RDBMS basics
 
-apllodb v0.1 には以下のような制限があります。
+apllodb v0.1 has the following limitations.
 
-- 使用できるSQLの文が少ない。
-- 利用できるデータ型の種類が少ない。
-- プライマリキーの値を更新できない。
+- Fewer SQL statements are available.
+- Fewer data types are available.
+- Cannot update the value of the primary key.
 
-この他にも、通常のRDBMSにはできてapllodbにはできないことが数多くあり、大きな改善対象です。
+There are many other things that apllodb can do that normal RDBMSs can't, which is a big improvement.
 
-## デジタル資料管理のための新機能
+## New features for digital document management
 
-### 範囲が曖昧なデータの挿入・検索
+### Insertion and retrieval of data with ambiguous scope
 
-デジタル化の対象となる資料が歴史的な対象を扱う場合、曖昧なデータが多く登場すると考えられます。
+When the materials to be digitized deal with historical objects, it is expected that many ambiguous data will appear.
 
-- 生年: 1200年から1230年頃
-- 規模: 1000人から10000万人
+- Year of birth: around 1200 to 1230
+- Size: 10 to 10 million people
 
-この種のデータをRDBMSで管理する際に、上限値や下限値をカラムに設定することも一般的に考えられるアプローチですが、例えば確率分布を導入し、中央値と分散を管理することも検討の余地があると考えます。
+When managing this kind of data in an RDBMS, setting upper and lower limits in columns is a common approach, but I think there is room for consideration in introducing probability distributions, for example, and managing medians and variances.
 
-この考えが実用上有益ならば、apllodbで実現する可能性があります。
+If this idea is practically useful, it could be implemented in apllodb.
