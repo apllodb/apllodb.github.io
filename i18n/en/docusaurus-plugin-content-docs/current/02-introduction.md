@@ -40,7 +40,7 @@ However, you may find another description from the same or a different document:
 
 _(Quoted from [Wikipedia](https://en.wikipedia.org/wiki/Isaac_Newton) )_
 
-Here we can see that one `Academic field` column is not enough, and in some cases we may also want a `job history` column.
+Here we can see that one `Academic field` column is not enough, and in some cases we may also want a `Job history` column.
 When digitizing analog data, it is difficult to determine the structure from the beginning. It is often necessary to modify the structure while looking at the data.
 
 Databases that utilize relational algebraic models (tables) are called RDBMS (Relational Database Management System).
