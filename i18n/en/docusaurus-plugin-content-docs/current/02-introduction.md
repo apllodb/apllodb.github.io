@@ -77,7 +77,7 @@ How can we do this in an immutable way?
 In the Immutable Schema, the table structure and records are kept as follows:
 
 - Leave the table structure and records before the column deletion, and
-- create a new table structure after the column deletion, and
+- create a new table structure without the column to delete, and
 - the subsequent records will be added to the new table definition (if possible).
 
 In the RDBMS world, table operations are called DDL, so the immutable table structure changes described above are called **Immutable DDL**.
