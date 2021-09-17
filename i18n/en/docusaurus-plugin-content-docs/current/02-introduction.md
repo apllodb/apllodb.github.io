@@ -5,7 +5,7 @@ slug: /introduction/
 
 # Introduction
 
-## What is apllodb a database for?
+## What's apllodb for?
 
 apllodb is a database dedicated to **digital document management**.
 
