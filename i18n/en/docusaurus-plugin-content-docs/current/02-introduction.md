@@ -80,7 +80,7 @@ In the Immutable Schema, the table structure and records are kept as follows:
 - create a new table structure without the column to delete, and
 - the subsequent records will be added to the new table definition (if possible).
 
-In the RDBMS world, table operations are called DDL, so the immutable table structure changes described above are called **Immutable DDL**.
+In the RDBMS terminology, table operations are called DDL, so the immutable table structure changes described above are called **Immutable DDL**.
 Similarly, we call the immutable record operations **Immutable DML**.
 With Immutable DML, even after updating the column values of a record, it is possible to revert to the values before the update, or recover a record that has been deleted.
 
