@@ -10,7 +10,7 @@ slug: /introduction/
 apllodb is a database dedicated to **digital document management**.
 
 The term "digital document management" includes [digital archives](https://en.wikipedia.org/wiki/Digital_Archives) and simpler document management (creation, retrieval, and use).
-In digital document management, apllodb is useful in cases where document are still stored in analog form and will be converted to digital data.
+In the digital document management, apllodb is especially useful in cases where document are still stored in analog form and will be converted to digital data.
 The purpose of translating analog data into digital is not only to reduce the space to keep them, but also to make applications (visualizing, searching, and aggregating) from the data.
 When considering making applications from digital data, it is necessary to accumulate data while organizing the information, and to make **structured** data.
 There are various methods for structuring, but the relational algebra model is one that is easy to handle for both application programs and humans. Relational algebra model is similar to table structures like those in Excel or spreadsheets.
