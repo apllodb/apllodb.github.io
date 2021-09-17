@@ -37,7 +37,7 @@ Next, let's look at an example of `DROP COLUMN`.
 
 ![`ALTER TABLE ... DROP`](/img/immutable-ddl-alter-table-drop.en.png)
 
-_[The "apllodb concept" slide](https://docs.google.com/presentation/d/e/2PACX-1vRqJ5GmC6T9VaJ_CCujsd0dkqN4883DR9S4T3eYI5wxF7_vzNhbscW- StclxjkeMT3eCIVdKEVGQslT/pub?start=false&loop=false&delayms=3000).
+_Quoted from ["Introduction to apllodb" slides](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_.
 
 In a normal RDBMS, the column values will also disappear from the existing records.
 In a normal RDBMS, column values will also disappear from existing records. There is nothing wrong with this behavior, but in the case of digital document management, there may be a case where you don't want to enter this column anymore, but want to keep the column values you have entered so far.
@@ -220,9 +220,9 @@ Immutable DML allows records to have **revision** and to be restored to a previo
 
 Here is an illustration of the behavior in the case of `UPDATE`.
 
-! [`UPDATE`](/img/immutable-dml-update.en.png)
+![`UPDATE`](/img/immutable-dml-update.en.png)
 
-_[The "apllodb concept" slide](https://docs.google.com/presentation/d/e/2PACX-1vRqJ5GmC6T9VaJ_CCujsd0dkqN4883DR9S4T3eYI5wxF7_vzNhbscW- Quoted from StclxjkeMT3eCIVdKEVGQslT/pub?start=false&loop=false&delayms=3000)_
+_Quoted from ["Introduction to apllodb" slide](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_
 
 In a normal RDBMS, the value of `c1` is overwritten by `UPDATE` and cannot usually be restored to its original value [^3].
 In digital document management, we believe that we often want to revert records back to the way they were before they were modified or deleted.
@@ -239,7 +239,7 @@ Immutable DDL and Immutable DML are also implemented on SQLite.
 
 In this section, we will explain the methodology to realize Immutable Schema based on existing RDBMS.
 
-! [ER diagram for Immutable Schema realization](/img/apllodb-0.1.0-SQLite-ER-diagram.svg)
+![ER diagram for Immutable Schema realization](/img/apllodb-0.1.0-SQLite-ER-diagram.svg)
 
 We will set up a table as shown in the above figure in the existing RDBMS.
 The layer with blue background is the real tables that need to be created for one table `T` in Immutable Schema.
