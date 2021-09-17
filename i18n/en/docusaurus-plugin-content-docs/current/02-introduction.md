@@ -74,7 +74,7 @@ This is not just keeping a backup before modifications.
 For example, consider deleting one column when there are already records in a table.
 A normal mutable RDBMS will erase the value of the column to be deleted for all records.
 How can we do this in an immutable way?
-In the Immutable Schema, the table structure and records are kept, and a new table structure is created after the column deletion as follows:
+In the Immutable Schema, the table structure and records are kept as follows:
 
 - Leave the table structure and records before the column deletion, and
 - create a new table structure after the column deletion, and
