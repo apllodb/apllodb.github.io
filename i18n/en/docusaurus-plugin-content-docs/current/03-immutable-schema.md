@@ -285,6 +285,6 @@ Get the non-primary key column value of the record by joining it with the `T__v?
 
 ### For match search and range search by non-primary key.
 
-Indexes on non-primary keys are not supported in apllodb v0.1, and after performing a full scan, records that do not match the search criteria are excluded.
+Indexes on non-primary keys are not supported in apllodb v0.1. Current apllodb performs performs full scan and then filter-out record that do not match the search criteria.
 
 When we support indexing, we envision that the primary key can be subtracted from the index and from there it can be dropped into the "For match search by primary key".
