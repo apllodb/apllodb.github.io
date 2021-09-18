@@ -264,7 +264,7 @@ The role of each table is as follows
   - `T__v?`.
     - holds the records (non-primary key columns) of version `v?`.
 
-See [README of the storage engine](https://github.com/apllodb/apllodb/tree/main/apllodb-immutable-schema-engine#sqlite-schema-design) for details of columns in the real table. for details on the columns of the real table.
+See [README of the storage engine](https://github.com/apllodb/apllodb/tree/main/apllodb-immutable-schema-engine#sqlite-schema-design) for details of columns in the real table.
 
 Here is an overview of how these tables are referenced in a `SELECT` statement.
 
