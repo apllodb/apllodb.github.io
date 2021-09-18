@@ -144,7 +144,7 @@ SELECT c1, c2, c3 FROM t ORDER BY c2 DESC;
 
 ### INSERT behavior
 
-If the table to be `INSERT` is `t`, all versions (not deactivated by `DROP TABLE`) will be processed according to the following rules.
+When the table to be `INSERT`ed is `t`, all versions (not deactivated by `DROP TABLE`) will be processed according to the following rules.
 
 - **(Rule 1)** Look at the versions in descending order, and attempt to insert a record into a version if an insert with an `INSERT` statement can be performed successfully for that version.
   - **(Rule 1.1)** Error if a table-wide constraint is violated.
