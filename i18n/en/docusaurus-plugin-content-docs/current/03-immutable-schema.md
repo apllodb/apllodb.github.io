@@ -142,7 +142,7 @@ SELECT c1, c2, c3 FROM t ORDER BY c2 DESC;
 
 [^1] `GROUP BY nullable_column`, for example, have different default behavior depending on RDBMS implementations. apllodb v0.1 adopts PostgreSQL compliant semantics.
 
-### Behavior on INSERT
+### INSERT behavior
 
 If the table to be `INSERT` is `t`, all versions (not deactivated by `DROP TABLE`) will be processed according to the following rules.
 
