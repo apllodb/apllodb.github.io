@@ -41,7 +41,7 @@ _Quoted from ["Introduction to apllodb" slides](https://docs.google.com/presenta
 In a normal RDBMS, column values will also disappear from existing records. There is nothing wrong with this behavior, but in the case of digital document management, there may be a case where you don't want to fill this column anymore, but want to keep the column values you have filled so far.
 In this case, Immutable DDL can be useful. Even if you delete a column from a table definition, the table definition and records before the column deletion will remain in `v1`.
 
-So far, we have explained that issuing DDL creates a version in the table definition, and the records are still associated with the old version.
+So far, we have explained that issuing DDL creates a new version in the table definition, and the records are still associated with old versions.
 In the next section, we will explain how DML such as `SELECT` and `INSERT` behaves in a situation where multiple versions exist.
 
 ## Details of Immutable DDL.
