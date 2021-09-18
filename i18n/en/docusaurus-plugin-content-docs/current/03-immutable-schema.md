@@ -164,7 +164,7 @@ Consider the case where the table `t` has the following three versions and a tab
   - `c3`: NULL
 - v1
   - `c1`: NOT NULL
-- Constraints for the entire table
+- Table-wide constraints
   - `id`: PRIMARY KEY
 
 Let's look at a few `INSERT` statements and their results in this case.
