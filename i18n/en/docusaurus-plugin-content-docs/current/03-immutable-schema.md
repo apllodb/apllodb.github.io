@@ -29,7 +29,7 @@ The behavior in the case of `ALTER TABLE` is illustrated below.
 _Quoted from ["Introduction to apllodb" slides](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_.
 
 `ADD COLUMN` adding a `NOT NULL` column without any default value is not possible in a normal RDBMS because it doesn't know what value to set to the new column of an existing record.
-With Immutable DDL, `v2` can be done without error because the table definition before adding the column remains as `v1` and the record is kept with `v1`.
+With Immutable DDL, `v2` is created without error. Table definition before adding the column remains as `v1` and records are kept in `v1`.
 The next INSERT will be directed to `v2` if the value is also set for the added column.
 
 Next, let's look at an example of `DROP COLUMN`.
