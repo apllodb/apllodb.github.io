@@ -20,7 +20,7 @@ In Immutable DDL, a table has **versions**.
 
 - `CREATE TABLE t ... ` creates `v1` of table `t`.
 - Then `ALTER TABLE t ... ` creates `v2` of table `t`. The table definition of `v1` and the records associated with `v1` will remain unchanged.
-- Then, `DROP TABLE t` will create `v3` of table `t`. Since `v3` is in deactivated state, any operation on `t` will fail in principle. The records associated with `v1` and `v2` remain intact.
+- Then `DROP TABLE t` will create `v3` of table `t` as in deactivated state. Since `v3` is in deactivated state, any operation on `t` will fail basically. The records associated with `v1` and `v2` remain intact.
 
 The behavior in the case of `ALTER TABLE` is illustrated below.
 
