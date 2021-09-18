@@ -275,8 +275,8 @@ Here is an overview of how these tables are referenced in a `SELECT` statement.
 
 ### Exact match search by primary key
 
-1. refer to the `T__navi` table, do a match search for the primary key value, and extract the record with the highest revision number. 2.
-Get the non-primary key column value of the record by joining it with the `T__v?` table.
+1. Refer to the `T__navi` table, do a match search for the primary key value, and extract the record with the highest revision number.
+2. Get the non-primary key column value of the record by joining it with the `T__v?` table.
 
 ### In case of range search by primary key. 1.
 
