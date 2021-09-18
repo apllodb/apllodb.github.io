@@ -235,7 +235,7 @@ In Immutable DML, past records remain in the form of revisions, which can be rec
 apllodb v0.1 uses SQLite for table structure and record storage (and transaction).
 Immutable DDL and Immutable DML are also implemented over SQLite.
 
-In this section, we will explain the methodology to realize Immutable Schema based on existing RDBMS.
+In this section, we will explain how to realize Immutable Schema based on existing RDBMS.
 
 ![ER diagram for Immutable Schema realization](/img/apllodb-0.1.0-SQLite-ER-diagram.svg)
 
