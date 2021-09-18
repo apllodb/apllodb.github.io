@@ -226,7 +226,7 @@ In a normal RDBMS, the value of `c1` is overwritten by `UPDATE` and cannot usual
 In digital document management, we believe that we often want to revert records they were before modified or deleted.
 In Immutable DML, past records remain in the form of revisions, which can be recovered if necessary. It is also possible to extract the change history of a record.
 
-[^2] Some RDBMSs have destructive DMLs like UPDATE and DELETE in the form of additive DMLs like Immutable DML. Many of them perform garbage collection at some point (background processing, `VACUUM` command, etc.) to complete destructive DML. The aim is to reduce capacity and improve performance.
+[^2] Some RDBMSs have destructive DMLs like UPDATE and DELETE in append-manner like Immutable DML. Many of them perform garbage collection at some point (background processing, `VACUUM` command, etc.) to complete destructive DML. The aim is to reduce capacity and improve performance.
 
 [^3] This is possible if you have snapshot backups, but I don't think many systems support record-by-record recovery.
 
