@@ -268,7 +268,7 @@ See [README of the storage engine](https://github.com/apllodb/apllodb/tree/main/
 
 Here is an overview of how these tables are referenced in a `SELECT` statement.
 
-### For full scan: 1.
+### Full scan case
 
 1. browse the `T__navi` table and extract the record with the highest revision number for each primary key value. 2.
 Get the non-primary key column values of those records by joining them with the `T__v?` table.
