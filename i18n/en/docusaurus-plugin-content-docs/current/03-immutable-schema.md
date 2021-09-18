@@ -228,7 +228,7 @@ In Immutable DML, past records remain in the form of revisions, which can be rec
 
 [^2] Some RDBMSs have destructive DMLs like UPDATE and DELETE in append-manner like Immutable DML. Many of them perform garbage collection at some point (background processing, `VACUUM` command, etc.) to complete destructive DML. The aim is to reduce capacity and improve performance.
 
-[^3] This is possible if you have snapshot backups, but I don't think many systems support record-by-record recovery.
+[^3] Possible if you have snapshot backups but we don't think many systems support record-by-record recovery.
 
 ## Immutable DDL, Immutable DML realization method
 
