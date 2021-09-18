@@ -210,7 +210,7 @@ If a record is updated (deleted) by `UPDATE` or `DELETE`, the original record ca
 Immutable DML allows records to have **revision** and to be restored to a previous revision.
 
 - A table always has a primary key, and the primary key is the same for all versions.
-- There is a one-to-many correspondence between primary keys and revisions.
+- There is a one-to-many association between primary keys and revisions.
 - The first time the value of a primary key is encountered by an `INSERT` statement, the record will be in the `r1` revision.
 - When the record of the primary key is updated by an `UPDATE` statement, the record of `r1` remains unchanged, and the record of `r2` is created in the form of an appendix (internally, the `INSERT` process runs).
 - When a record with the same primary key is deleted by a `DELETE` statement, the record of `r3` is created with only a delete mark and no content.
