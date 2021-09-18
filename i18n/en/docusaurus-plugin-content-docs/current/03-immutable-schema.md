@@ -180,7 +180,7 @@ Following rule 1, apllodb will first try to insert into `v3`. Insertion into `v3
 INSERT INTO t (c1, c2, c3) VALUES (3, 30, 33);
 ```
 
-Following rule 1, we first try to insert into `v3`. Since `v3` does not have a column named `c3`, we move to rule 2, and then back to rule 1 with an attempt on `v2`.
+Following rule 1, apllodb first try to insert into `v3`. Since `v3` does not have a column named `c3`, apllodb move to rule 2, and then back to rule 1 with an attempt on `v2`.
 Inserting into `v2` is no problem, so rule 1.2 will complete the INSERT statement successfully.
 
 ```sql
