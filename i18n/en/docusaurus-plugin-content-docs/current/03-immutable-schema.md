@@ -55,7 +55,7 @@ If the `SELECT` target table is `t`, all versions (not `DROP TABLE` deactivated)
 - **(Rule 3)** If the `c` column of `t` exists in some version, the record of that version returns a NULL value for `c`.
 
 Let's explain with an example.
-Consider the following three versions and records of table `t`.
+Consider the following three versions and records are in table `t`.
 
 ```text
 v3
