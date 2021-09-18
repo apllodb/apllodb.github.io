@@ -273,7 +273,7 @@ Here is an overview of how these tables are referenced in a `SELECT` statement.
 1. Browse the `T__navi` table and extract the record with the highest revision number for each primary key value.
 2. Get the non-primary key column values of those records by joining them with the `T__v?` table.
 
-### For match search by primary key. 1.
+### Exact match search by primary key
 
 1. refer to the `T__navi` table, do a match search for the primary key value, and extract the record with the highest revision number. 2.
 Get the non-primary key column value of the record by joining it with the `T__v?` table.
