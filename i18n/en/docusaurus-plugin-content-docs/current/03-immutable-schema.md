@@ -79,7 +79,7 @@ At this time, the
 
 ```sql
 SELECT c4 FROM t;
-````
+```
 
 will result in an error according to rule 1 (the column c4 does not exist).
 
