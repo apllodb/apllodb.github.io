@@ -109,7 +109,7 @@ SELECT c1, c2, c3 FROM t;
 | 2  | NULL | NULL |
 ```
 
-Rules 2 and 3 have been applied.
+Rules 2 and 3 are applied.
 
 So far, we've learned Projection (specifying the columns to fetch immediately after the `SELECT`), let's look at
 
