@@ -230,7 +230,7 @@ In Immutable DML, past records remain in the form of revisions, which can be rec
 
 [^3] Possible if you have snapshot backups but we don't think many systems support record-by-record recovery.
 
-## Immutable DDL, Immutable DML realization method
+## Immutable DDL and Immutable DML implementations
 
 apllodb v0.1 uses SQLite for table structure and record storage (and transaction).
 Immutable DDL and Immutable DML are also implemented on SQLite.
