@@ -8,7 +8,7 @@ slug: /ImmutableSchema/
 As described in [Introduction](02-introduction.md), Immutable Schema consists of Immutable DDL and Immutable DML.
 Immutable Schema enables the organization of new information obtained through observation of data  for digital material management  without destroying existing data (records).
 
-This chapter describes the specifications of Immutable DDL and Immutable DML, and the implementation techniques in v0.1.
+This chapter describes the specifications of Immutable DDL and Immutable DML, and some implementation details in v0.1.
 
 ## Overview of Immutable DDL
 
