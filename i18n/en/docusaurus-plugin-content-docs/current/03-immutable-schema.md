@@ -254,7 +254,7 @@ The role of each table is as follows
       - Version number
       - Name and data type of each column.
       - Constraints to check one record at a time (NOT NULL, DEFAULT, CHECK, ...)
-      - active version (not DROP TABLEed)
+      - Active version (not being `DROP TABLE`ed)
 - Real table for table `T
   - `T__navi`.
     - A relay table for locating the entity of a record with a primary key.
