@@ -57,7 +57,7 @@ If the `SELECT` target table is `t`, all versions (not `DROP TABLE` deactivated)
 Let's explain with an example.
 Consider the following three versions and records of table `t`.
 
-``text
+```text
 v3
 | c1 | c2 |
 |----|----|
