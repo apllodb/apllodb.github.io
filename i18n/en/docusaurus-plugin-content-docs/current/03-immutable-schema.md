@@ -220,7 +220,7 @@ Here is an illustration of the behavior in the case of `UPDATE`.
 
 ![`UPDATE`](/img/immutable-dml-update.en.png)
 
-_Quoted from ["Introduction to apllodb" slide](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_
+_Quoted from ["Introduction to apllodb" slide](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_.
 
 In a normal RDBMS, the value of `c1` is overwritten by `UPDATE` and cannot usually be restored to its original value [^3].
 In digital document management, we believe that we often want to revert records back to the way they were before they were modified or deleted.
