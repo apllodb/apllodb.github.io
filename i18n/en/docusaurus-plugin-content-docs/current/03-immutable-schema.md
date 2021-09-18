@@ -223,7 +223,7 @@ Here is an illustration of the behavior in the case of `UPDATE`.
 _Quoted from ["Introduction to apllodb" slide](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_.
 
 In a normal RDBMS, the value of `c1` is overwritten by `UPDATE` and cannot usually be restored to its original value [^3].
-In digital document management, we believe that we often want to revert records back to the way they were before they were modified or deleted.
+In digital document management, we believe that we often want to revert records they were before modified or deleted.
 In Immutable DML, past records remain in the form of revisions, which can be recovered if necessary. It is also possible to extract the change history of a record.
 
 [^2] Some RDBMSs have destructive DMLs like UPDATE and DELETE in the form of additive DMLs like Immutable DML. Many of them perform garbage collection at some point (background processing, `VACUUM` command, etc.) to complete destructive DML. The aim is to reduce capacity and improve performance.
