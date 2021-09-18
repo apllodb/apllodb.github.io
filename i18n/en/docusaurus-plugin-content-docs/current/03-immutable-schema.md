@@ -46,7 +46,7 @@ In the next section, we will explain how DML such as `SELECT` and `INSERT` behav
 
 ## Details of Immutable DDL.
 
-## Behavior during SELECT
+## SELECT behavior
 
 If the `SELECT` target table is `t`, all versions (not `DROP TABLE` deactivated) will be processed according to the following rules.
 
