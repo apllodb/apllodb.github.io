@@ -51,7 +51,7 @@ In the next section, we will explain how DML such as `SELECT` and `INSERT` behav
 When the `SELECT` target table is `t`, all versions (not deactivated via `DROP TABLE`) will be processed according to the following rules.
 
 - **(Rule 1)** Error if the column `c` in the `SELECT` statement does not exist in any version of `t`.
-- **(Rule 2)** If `c` of `t` exists in some version of `t`, the record in that version returns the column value for `c`.
+- **(Rule 2)** If `c` exists in some version of `t`, records in that version return the column value for `c`.
 - **(Rule 3)** If `c` column does not exist in some version, records of that version return NULL value for `c`.
 
 Let's explain with an example.
