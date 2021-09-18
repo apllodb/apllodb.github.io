@@ -5,59 +5,57 @@ slug: /ImmutableSchema/
 
 # Immutable Schema
 
-[イントロダクション](02-introduction.md) で述べたように、Immutable SchemaはImmutable DDLとImmutable DMLから成ります。
-Immutable Schemaは、デジタル資料管理のために既に追加したデータ（レコード）を破壊せず、データの観察により得られた新たな情報の整理を可能にします。
+As described in [Introduction](02-introduction.md), Immutable Schema consists of Immutable DDL and Immutable DML.
+Immutable Schema enables the organization of new information obtained through observation of data  for digital material management  without destroying existing data (records).
 
-この章ではImmutable DDLとImmutable DMLの仕様と、v0.1 における実装手法について説明します。
+This chapter describes the specifications of Immutable DDL and Immutable DML, and some implementation details in v0.1.
 
-## Immutable DDLの概要
+## Immutable DDL Overview
 
-通常のRDBMSのDDLでは、 `CREATE TABLE` 文で作成したテーブル定義を `ALTER TABLE` 文で修正したり、 `DROP TABLE` 文で削除したりすることができます。
-`ALTER TABLE` や `DROP TABLE` でテーブル定義が変更（削除）されると、元のテーブル定義は復旧できません。
+In DDL of a normal RDBMS, table definitions created with the `CREATE TABLE` statement can be modified with the `ALTER TABLE` statement or dropped with the `DROP TABLE` statement.
+If a table definition is modified (dropped) with `ALTER TABLE` or `DROP TABLE`, the original table definition cannot be recovered.
 
-これを可能にするのがImmutable DDLです。
-Immutable DDLにおいては、テーブルが **バージョン** を持ちます。
+Immutable DDL makes this possible.
+In Immutable DDL, a table has **versions**.
 
-- `CREATE TABLE t ...` により、テーブル `t` の `v1` が作成される。
-- 続いて `ALTER TABLE t ...` をすると、テーブル `t` の `v2` が作成される。`v1` のテーブル定義と `v1` に紐づくレコードは、そのまま残る。
-- 続いて `DROP TABLE t` をすると、テーブル `t` の `v3` が作成される。 `v3` は deactivated 状態であり、 `t` に対する操作は原則エラーになる。`v1`, `v2` に紐づくレコードはそのまま残っている。
+- `CREATE TABLE t ... ` creates `v1` of table `t`.
+- Then `ALTER TABLE t ... ` creates `v2` of table `t`. The table definition of `v1` and the records inside `v1` will remain unchanged.
+- Then `DROP TABLE t` will create `v3` of table `t` as in deactivated state. Since `v3` is in deactivated state, any operation on `t` will fail basically. The records associated with `v1` and `v2` remain intact.
 
-`ALTER TABLE` の場合の挙動を図解します。
+The behavior in the case of `ALTER TABLE` is illustrated below.
 
-![`ALTER TABLE ... ADD`](/img/immutable-ddl-alter-table-add.ja.png)
+![`ALTER TABLE ... ADD`](/img/immutable-ddl-alter-table-add.en.png)
 
-_[『apllodbの構想』スライド](https://docs.google.com/presentation/d/e/2PACX-1vRqJ5GmC6T9VaJ_CCujsd0dkqN4883DR9S4T3eYI5wxF7_vzNhbscW-StclxjkeMT3eCIVdKEVGQslT/pub?start=false&loop=false&delayms=3000)より引用_
+_Quoted from ["Introduction to apllodb" slides](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_.
 
-まずは `ADD COLUMN` ですが、デフォルト値がなく、かつ `NOT NULL` であるカラム追加は、通常のRDBMSではできません。
-既存レコードの新しいカラムにセットすべき値が決まらないためです。
-Immutable DDLでは、カラム追加前のテーブル定義が `v1` として残り、レコードも `v1` に紐付いて保持されるため、エラーなく `v2` ができます。
-次回以降のINSERTは、追加カラムに対しても値をセットしていれば、 `v2` に向きます。
+`ADD COLUMN` adding a `NOT NULL` column without any default value is not possible in a normal RDBMS because it doesn't know what value to set to the new column of an existing record.
+With Immutable DDL, `v2` is created without error. Table definition before adding the column remains as `v1` and records are kept in `v1`.
+Next INSERT will be directed to `v2` if the value is also set for the added column.
 
-続いて `DROP COLUMN` の例を見ます。
+Next, let's look at an example of `DROP COLUMN`.
 
-![`ALTER TABLE ... DROP`](/img/immutable-ddl-alter-table-drop.ja.png)
+![`ALTER TABLE ... DROP`](/img/immutable-ddl-alter-table-drop.en.png)
 
-_[『apllodbの構想』スライド](https://docs.google.com/presentation/d/e/2PACX-1vRqJ5GmC6T9VaJ_CCujsd0dkqN4883DR9S4T3eYI5wxF7_vzNhbscW-StclxjkeMT3eCIVdKEVGQslT/pub?start=false&loop=false&delayms=3000)より引用_
+_Quoted from ["Introduction to apllodb" slides](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_.
 
-通常のRDBMSでは、既存レコードからカラムの値も消えてしまいます。
-これは何らおかしい挙動ではないのですが、デジタル資料管理においては「今後はこのカラムもう入力しないで良いけど、今まで入力したカラム値はせっかくだから残していたい」というケースがあると考えます。
-その場合にもImmutable DDLは役立ちます。カラムをテーブル定義から削除しても、 `v1` にはカラム削除前のテーブル定義とレコードがそのまま残るからです。
+In a normal RDBMS, column values will also disappear from existing records. There is nothing wrong with this behavior, but in the case of digital document management, there may be a case where you don't want to fill this column anymore, but want to keep the column values you have filled so far.
+In this case, Immutable DDL can be useful. Even if you delete a column from a table definition, the table definition and records before the column deletion will remain in `v1`.
 
-ここまでで、DDLを発行するとテーブル定義の中にバージョンができあがり、レコードも古いバージョンに紐づく形でそのまま残ることを説明しました。
-次の説では、複数のバージョンが存在する状況で、 `SELECT` や `INSERT` などのDMLがどのような挙動となるかを説明します。
+So far, we have explained that issuing DDL creates a new version in the table definition, and the records are still associated with old versions.
+In the next section, we will explain how DML such as `SELECT` and `INSERT` behaves in a situation where multiple versions exist.
 
-## Immutable DDLの詳細
+## Details of Immutable DDL.
 
-### SELECT時の挙動
+## SELECT behavior
 
-`SELECT` 対象のテーブルが `t` の場合、(`DROP TABLE` された deactivated ではない) 全バージョンについて、以下のルールに従い処理が行われます。
+When the `SELECT` target table is `t`, all versions (not deactivated via `DROP TABLE`) will be processed according to the following rules.
 
-- **(ルール1)** `SELECT` 文において要求されているテーブル `t` のカラム `c` が、`t` のいずれのバージョンにも存在していなければエラー。
-- **(ルール2)** `t` の `c` があるバージョンには存在している場合、そのバージョンのレコードは `c` についてカラム値を返す。
-- **(ルール3)** `t` の `c` カラムがあるバージョンには存在している場合、そのバージョンのレコードは `c` についてNULL値を返す。
+- **(Rule 1)** Error if the column `c` in the `SELECT` statement does not exist in any version of `t`.
+- **(Rule 2)** If `c` exists in some version of `t`, records in that version return the column value for `c`.
+- **(Rule 3)** If `c` column does not exist in some version, records of that version return NULL value for `c`.
 
-例を挙げて解説します。
-テーブル `t` に、以下の3つのバージョンとレコードが存在する場合を考えます。
+Let's explain with an example.
+Consider the following three versions and records are in table `t`.
 
 ```text
 v3
@@ -76,20 +74,20 @@ v1
 | 2  |
 ```
 
-この時、
+At this time, the
 
 ```sql
 SELECT c4 FROM t;
 ```
 
-は、ルール1によりエラーとなります (c4 というカラムは存在しない)。
+will result in an error according to rule 1 (the column c4 does not exist).
 
-他の例も見てみましょう。
+Let's look at some other examples.
 
 ```sql
 SELECT c1 FROM t;
 
--- 結果 (順序は不定)
+-- result (in undefined order)
 | c1 |
 |----|
 | 1  |
@@ -97,65 +95,65 @@ SELECT c1 FROM t;
 | 2  |
 ```
 
-ルール2が適用されています。
+Rule 2 is applied.
 
 ```sql
 SELECT c1, c2, c3 FROM t;
 
--- 結果 (順序は不定)
+-- result (undefined order)
 | c1 | c2   | c3   |
 |----|------|------|
-| 1  | 10   | NULL |
-| 3  | 30   | 33   |
+| 1  | 10 | NULL |
+| 3  | 30 | 33   |
 | 2  | NULL | NULL |
 ```
 
-ルール2とルール3が適用されています。
+Rules 2 and 3 are applied.
 
-ここまで Projection (`SELECT` 直後の、取得するカラムの指定) について見ましたが、
+So far, we've learned Projection (specifying the columns to fetch immediately after the `SELECT`), let's look at
 
 - `WHERE`
 - `GROUP BY`
 - `ORDER BY`
 - `JOIN`
 
-に現れるカラム指定についても同じルールが適用されます。
-ルール3によってNULLが現れることがありますが、これらの演算には値としてNULLが現れた場合の挙動がSQL標準として定義されており[^1]、その挙動に従って結果を返します。
+The same rules apply to the columns that appear in the above clauses.
+By rule 3, NULL may appear but these operations have defined behavior as SQL standard when NULL appears[^1], and return the result according to that specifications.
 
 ```sql
 SELECT c1, c2, c3 FROM t WHERE c2 > 15;
 
--- 結果
-| c1 | c2   | c3   |
+-- result
+| c1 | c2 | c3 |
 |----|------|------|
-| 3  | 30   | 33   |
+| 3 | 30 | 33 |
 ```
 
 ```sql
 SELECT c1, c2, c3 FROM t ORDER BY c2 DESC;
 
--- 結果 (NULLはどの値よりも劣後)
-| c1 | c2   | c3   |
+-- result (NULL is subordinate to any value)
+| c1 | c2 | c3 |
 |----|------|------|
 | 3  | 30   | 33   |
 | 1  | 10   | NULL |
 | 2  | NULL | NULL |
 ```
 
-[^1] `GROUP BY nullable_column` などは、RDBMS処理系によってデフォルトの挙動が異なる状況ですが、apllodb v0.1 ではPostgreSQL準拠の意味論を採用しています。
+[^1] `GROUP BY nullable_column`, for example, have different default behavior depending on RDBMS implementations. apllodb v0.1 adopts PostgreSQL compliant semantics.
 
-### INSERT時の挙動
+### INSERT behavior
 
-`INSERT` 対象のテーブルが `t` の場合、(`DROP TABLE` された deactivated ではない) 全バージョンについて、以下のルールに従い処理が行われます。
+When the table to be `INSERT`ed is `t`, all versions (not deactivated by `DROP TABLE`) will be processed according to the following rules.
 
-- **(ルール1)** バージョンを降順に見て、 `INSERT` 文による挿入がそのバージョンについて正常に実行できるならば、そのバージョンへのレコード挿入を試みる。
-  - **(ルール1.1)** テーブル全体の制約に違反した場合はエラー。
-  - **(ルール1.2)** さもなくばそのバージョンへの挿入が正常に完了。
-- **(ルール2)** ルール1であるバージョンについて正常に実行できなければ、より小さいバージョンを選び繰り返す。
-- **(ルール3)** `v1` への挿入も正常に完了しなかった場合、 `INSERT` 文の実行がエラーとなる。
+- **(Rule 1)** Iterate versions in descending order, and attempt to insert a record into a version if an insert with an `INSERT` statement can be performed successfully for that version.
+  - **(Rule 1.1)** Error if a table-wide constraint is violated.
+  - **(Rule 1.2)** Otherwise, insert into that version completes successfully.
+- **(Rule 2)** If rule 1 does not work for one version, choose a smaller version and repeat.
+- **(Rule 3)** If the insertion into `v1` does not complete successfully, the execution of the `INSERT` statement will fail.
 
-例を挙げて解説します。
-テーブル `t` に、以下の3つのバージョンと、テーブル全体の制約が存在する場合を考えます。
+Let's explain with an example.
+Consider the case where the table `t` has the following three versions and a table-wide constraint
 
 - v3
   - `c1`: NOT NULL
@@ -166,127 +164,128 @@ SELECT c1, c2, c3 FROM t ORDER BY c2 DESC;
   - `c3`: NULL
 - v1
   - `c1`: NOT NULL
-- テーブル全体の制約
+- Table-wide constraints
   - `id`: PRIMARY KEY
 
-この場合にいくつかの `INSERT` 文とその結果を見てみます。
+Let's look at a few `INSERT` statements and their results.
 
 ```sql
 INSERT INTO t (c1, c2) VALUES (1, 10);
 ```
 
-ルール1に従い、まず `v3` への挿入を試みます。`v3` への挿入は問題なくできるので、ルール1.2によりINSERT文は正常完了します。
-（`v2` への挿入も可能ですが、バージョンの大きい順から挿入候補となるので、 `v2` は選ばれません。）
+Following rule 1, apllodb will first try to insert into `v3`. Insertion into `v3` is OK, so rule 1.2 will complete the INSERT statement successfully.
+(Inserting into `v2` is also possible, but `v2` will not be selected, since the INSERT candidates are ordered by descending version.
 
 ```sql
 INSERT INTO t (c1, c2, c3) VALUES (3, 30, 33);
 ```
 
-ルール1に従い、まず `v3` への挿入を試みます。`v3` には `c3` というカラムがないので、ルール2へ移行し、`v2` を試みる形でルール1へ戻ります。
-`v2` への挿入は問題なくできるので、ルール1.2によりINSERT文は正常完了します。
+Following rule 1, apllodb first try to insert into `v3`. Since `v3` does not have a column named `c3`, apllodb move to rule 2, and then back to rule 1 with an attempt on `v2`.
+Inserting into `v2` is OK, so rule 1.2 will complete the INSERT statement successfully.
 
 ```sql
 INSERT INTO t (c1) VALUES (2);
 ```
 
-`v3`, `v2` ともに `c2` を要求するため、失敗します。`v1` へ至り正常完了します。
+Both `v3` and `v2` will fail because they require `c2`.  `v1` completes successfully.
 
 ```sql
 INSERT INTO t (c4) VALUES (4);
 ```
 
-`v3`, `v2`, `v1` のいずれも `c4` を持たないので、ルール3により、このINSERT文はエラーとなります。
+Since none of `v3`, `v2`, or `v1` has `c4`, rule 3 causes this INSERT statement to fail.
 
 ```sql
 INSERT INTO t (c1, c2, c3) VALUES (1, 100, 111);
 ```
 
-`v3` は `c3` を持たないので `v2` への挿入を試みます。
-`c1 = 1` であるレコードは既に存在するので、テーブル全体の制約である `c1 PRIMARY KEY` に違反します。従ってルール1.1により、このINSERT文はエラーとなります。
+`v3` does not have `c3`, so it tries to insert into `v2`.
+Since the record with `c1 = 1` already exists, it violates the table-wide constraint `c1 PRIMARY KEY`. Therefore, according to rule 1.1, this INSERT statement will result in an error.
 
-## Immutable DMLの概要
+## Immutable DML Overview
 
-通常のRDBMSのDMLでは、 `INSERT` 文で作成したレコードを `UPDATE` 文で更新したり、 `DELETE` 文で削除したりすることができます。
-`UPDATE` や `DELETE` でレコードが更新（削除）されると、元のレコードは復旧できません[^2]。
+In a normal RDBMS DML, a record created with an `INSERT` statement can be updated with an `UPDATE` statement or deleted with a `DELETE` statement.
+If a record is updated (deleted) by `UPDATE` or `DELETE`, the original record cannot be recovered [^2].
 
-Immutable DMLでは、レコードが **リビジョン** を持ち、以前のリビジョンへの復旧を可能にします。
+Immutable DML allows records to have **revision** and to be restored to a previous revision.
 
-- テーブルは必ずプライマリキーを持ち、プライマリキーはどのバージョンも共通。
-- プライマリキーとリビジョンは1対多対応。
-- あるプライマリキーの値が `INSERT` 文により初めて現れた時、そのレコードは `r1` のリビジョンになる。
-- そのプライマリキーのレコードが `UPDATE` 文により更新された時、 `r1` のレコードはそのまま残り、`r2` のレコードが追記の形で（内部的には `INSERT` 処理が走る形で）作成される。
-- 同じプライマリキーのレコードが `DELETE` 文により削除された時、 `r3` のレコードが、削除マークのみで中身はない形で作成される。
-- `SELECT` においては、同じプライマリキーの中の最新リビジョンのみが取得される。最新リビジョンに削除マークが付いていたら、そのプライマリキーのレコードは取得対象にならない。
+- A table always has a primary key, and the primary key is the same for all versions.
+- There is a one-to-many association between primary keys and revisions.
+- The first time the value of a primary key is created by an `INSERT` statement, the record will be in the `r1` revision.
+- When the record of the primary key is updated by an `UPDATE` statement, the record of `r1` remains unchanged, and the record of `r2` is created (internally, the `INSERT` process runs).
+- When a record with the same primary key is deleted by a `DELETE` statement, the record of `r3` is created with only a delete mark and no content.
+- In `SELECT`, only the latest revision of the same primary key is retrieved. If the latest revision has a delete mark, the record of the primary key will not be retrieved.
 
-`UPDATE` の場合の挙動を図解します。
+Here is an illustration of the behavior in the case of `UPDATE`.
 
-![`UPDATE`](/img/immutable-dml-update.ja.png)
+![`UPDATE`](/img/immutable-dml-update.en.png)
 
-_[『apllodbの構想』スライド](https://docs.google.com/presentation/d/e/2PACX-1vRqJ5GmC6T9VaJ_CCujsd0dkqN4883DR9S4T3eYI5wxF7_vzNhbscW-StclxjkeMT3eCIVdKEVGQslT/pub?start=false&loop=false&delayms=3000)より引用_
+_Quoted from ["Introduction to apllodb" slide](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_.
 
-通常のRDBMSでは、`c1` の値が `UPDATE` で上書きされるため、通常元の値に戻すことはできません[^3]。
-デジタル資料管理においては、レコードを修正・削除前に戻したくなることが多いと考えます。
-Immutable DMLでは、過去のレコードもリビジョンの形で残っているため、必要に応じて復旧することが可能です。また、あるレコードの変更履歴を抽出することも可能です。
+In a normal RDBMS, the value of `c1` is overwritten by `UPDATE` and cannot usually be restored to its original value [^3].
+In digital document management, we believe that we often want to revert records they were before modified or deleted.
+In Immutable DML, past records remain in the form of revisions, which can be recovered if necessary. It is also possible to extract the change history of a record.
 
-[^2] 一部のRDBMSでは、UPDATEやDELETEのような破壊的なDMLを、Immutable DMLのように追記型で行っています。そのうちの多くは、何かのタイミング（バックグラウンド処理や `VACUUM` コマンドなど）でガーベージコレクションを実行し、破壊的なDMLを完了させます。容量削減やパフォーマンス向上の狙いがあります。
+[^2] Some RDBMSs have destructive DMLs like UPDATE and DELETE in append-manner like Immutable DML. Many of them perform garbage collection at some point (background processing, `VACUUM` command, etc.) to complete destructive DML. The aim is to reduce capacity and improve performance.
 
-[^3] スナップショットのバックアップがある場合などは可能ですが、レコードごとの復旧をサポートしているシステムはあまりないかと思います。
+[^3] Possible if you have snapshot backups but we don't think many systems support record-by-record recovery.
 
-## Immutable DDL, Immutable DMLの実現手法
+## Immutable DDL and Immutable DML implementations
 
-apllodb の v0.1 は、テーブル構造やレコードの保存（並びにトランザクションの実現）に SQLite を使用しています。
-Immutable DDLやImmutable DMLも、SQLiteの上で実現しています。
+apllodb v0.1 uses SQLite for table structure and record storage (and transaction).
+Immutable DDL and Immutable DML are also implemented over SQLite.
 
-この節では、既存のRDBMSをベースにImmutable Schemaを実現するための手法を説明します。
+In this section, we will explain how to realize Immutable Schema based on existing RDBMS.
 
-![Immutable Schema 実現のためのER図](/img/apllodb-0.1.0-SQLite-ER-diagram.svg)
+![ER diagram for Immutable Schema realization](/img/apllodb-0.1.0-SQLite-ER-diagram.svg)
 
-上図のようなテーブルを、既存のRDBMSに設けます。
-青色背景のレイヤー部分は、Immutable Schemaにおけるテーブル `T` 一つについて作る必要のある実テーブル群です。
-上図は、テーブル `T` は2つのバージョン `v1` と `v2` を持つ設定です。
+We will set up tables as shown in the above figure in the existing RDBMS.
+The layer with blue background is the real tables that need to be created for one table `T` in Immutable Schema.
+The figure above shows a setup where table `T` has two versions, `v1` and `v2`.
 
-各テーブルの役割は次のとおりです。
+The role of each table is as follows
 
-- 全テーブルまたいだ実テーブル
-  - `_vtable_metadata`
-    - テーブルのメタデータを管理。
-      - 現在は、テーブル全体の制約 (PRIMARY KEY, UNIQUE) をメタデータとしている。
-  - `_version_metadata`
-    - バージョンごとのメタデータを管理。
-      - バージョン番号
-      - 各カラムの名前・データ型
-      - 1レコードずつ確認できる制約 (NOT NULL, DEFAULT, CHECK, ...)
-      - activeなバージョンか (DROP TABLE されていないか)
-- テーブル `T` に関する実テーブル
-  - `T__navi`
-    - プライマリキーをキーとし、レコードの実体を探すための中継テーブル。
-      - 複合プライマリキーにも対応。
-    - リビジョン番号を持ち、このテーブル内で「あるプライマリキー値を持つ最新のリビジョン」が判明する。
-    - バージョン番号を持ち、非プライマリキーのカラム値を `T__v?` テーブルと結合しにいける。
-  - `T__v?`
-    - バージョン `v?` のレコード（の非プライマリキーカラム）を保持。
+- Physical tables for all apllodb's tables
+  - `_vtable_metadata`.
+    - Manages the metadata for the table.
+      - Currently, constraints table-wide constraints (PRIMARY KEY, UNIQUE) for metadata.
+  - `_version_metadata`.
+    - Manage metadata for each version.
+      - Version number
+      - Name and data type of each column.
+      - Constraints to check one record at a time (NOT NULL, DEFAULT, CHECK, ...)
+      - Active version (not being `DROP TABLE`ed)
+- Real table for table `T
+  - `T__navi`.
+    - A relay table for locating the entity of a record with a primary key.
+      - Also supports composite primary keys.
+    - It has a revision number, and "the latest revision with a primary key value" is found in this table.
+    - It has a version number and can be used to join non-primary key column values with the `T__v?` table.
+  - `T__v?`.
+    - holds the records (non-primary key columns) of version `v?`.
 
-実テーブルのカラムの詳細は [ストレージエンジンのREADME](https://github.com/apllodb/apllodb/tree/main/apllodb-immutable-schema-engine#sqlite-schema-design) を参照してください。
+See [README of the storage engine](https://github.com/apllodb/apllodb/tree/main/apllodb-immutable-schema-engine#sqlite-schema-design) for details of columns in the real table.
 
-`SELECT` 文において、これらのテーブルがどのように参照されるかを概説します。
+Here is an overview of how these tables are referenced in a `SELECT` statement.
 
-### フルスキャンの場合
+### Full scan case
 
-1. `T__navi` テーブルを参照し、各プライマリキー値について、最もリビジョン番号が高いレコードを抽出。
-2. そのレコードの非プライマリキーカラム値を `T__v?` テーブルと結合して取得。
+1. Browse the `T__navi` table and extract the record with the highest revision number for each primary key value.
+2. Get the non-primary key column values of those records by joining them with the `T__v?` table.
 
-### プライマリキーによる一致検索の場合
+### Exact match search by primary key
 
-1. `T__navi` テーブルを参照し、プライマリキー値について一致検索し、最もリビジョン番号が高いレコードを抽出。
-2. そのレコードの非プライマリキーカラム値を `T__v?` テーブルと結合して取得。
+1. Refer to the `T__navi` table, do a match search for the primary key value, and extract the record with the highest revision number.
+2. Get the non-primary key column value of the record by joining it with the `T__v?` table.
 
-### プライマリキーによる範囲検索の場合
+### Range search by primary key
 
-1. `T__navi` テーブルを参照し、プライマリキー値について範囲検索し、最もリビジョン番号が高いレコードを抽出。
-2. そのレコードの非プライマリキーカラム値を `T__v?` テーブルと結合して取得。
+1. Refer to the `T__navi` table, do a range search for the primary key value, and extract the record with the highest revision number.
+2.
+Get the non-primary key column value of the record by joining it with the `T__v?` table.
 
-### 非プライマリキーによる一致検索・範囲検索の場合
+### Exact match search and range search by non-primary key.
 
-非プライマリキーに対するインデックスは apllodb v0.1 ではサポートされておらず、フルスキャンを実行した後に、検索条件に合致しないレコードを除外しています。
+Indexes on non-primary keys are not supported in apllodb v0.1. Current apllodb performs performs full scan and then filter-out record that do not match the search criteria.
 
-インデックスをサポートする際は、インデックスからプライマリキーが引け、そこからは「プライマリキーによる一致検索の場合」に落とし込めると構想しています。
+When we support indexing, we envision that the primary key can be subtracted from the index and from there it can be dropped into the "For match search by primary key".
