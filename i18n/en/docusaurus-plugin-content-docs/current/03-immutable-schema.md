@@ -127,7 +127,7 @@ SELECT c1, c2, c3 FROM t WHERE c2 > 15;
 | c1 | c2 | c3 |
 |----|------|------|
 | 3 | 30 | 33 |
-````sql
+```
 
 ```sql
 SELECT c1, c2, c3 FROM t ORDER BY c2 DESC;
