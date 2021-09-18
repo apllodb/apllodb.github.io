@@ -253,7 +253,7 @@ The role of each table is as follows
     - Manage metadata for each version.
       - Version number
       - Name and data type of each column.
-      - constraints to check one record at a time (NOT NULL, DEFAULT, CHECK, ...)
+      - Constraints to check one record at a time (NOT NULL, DEFAULT, CHECK, ...)
       - active version (not DROP TABLEed)
 - Real table for table `T
   - `T__navi`.
