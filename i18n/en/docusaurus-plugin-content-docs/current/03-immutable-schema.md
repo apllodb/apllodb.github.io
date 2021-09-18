@@ -101,8 +101,8 @@ Rule 2 is applied.
 ```sql
 SELECT c1, c2, c3 FROM t;
 
--- result (order indefinite)
-| c1 | c2 | c3 |
+-- result (undefined order)
+| c1 | c2   | c3   |
 |----|------|------|
 | 1  | 10 | NULL |
 | 3  | 30 | 33   |
