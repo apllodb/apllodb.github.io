@@ -88,7 +88,7 @@ Let's look at some other examples.
 ```sql
 SELECT c1 FROM t;
 
--- result (in indefinite order)
+-- result (in undefined order)
 | c1 |
 |----|
 | 1 | 3
