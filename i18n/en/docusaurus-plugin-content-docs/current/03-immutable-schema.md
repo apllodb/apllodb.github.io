@@ -187,7 +187,7 @@ Inserting into `v2` is OK, so rule 1.2 will complete the INSERT statement succes
 INSERT INTO t (c1) VALUES (2);
 ```
 
-Both `v3` and `v2` will fail because they require `c2`. Failed because both `v3` and `v2` require `c2`, leading to `v1`, which completes successfully.
+Both `v3` and `v2` will fail because they require `c2`.  `v1` completes successfully.
 
 ```sql
 INSERT INTO t (c4) VALUES (4);
