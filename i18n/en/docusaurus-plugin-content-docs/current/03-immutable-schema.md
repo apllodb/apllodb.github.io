@@ -173,7 +173,7 @@ Let's look at a few `INSERT` statements and their results.
 INSERT INTO t (c1, c2) VALUES (1, 10);
 ```
 
-Following rule 1, we will first try to insert into `v3`. Insertion into `v3` is no problem, so rule 1.2 will complete the INSERT statement successfully.
+Following rule 1, apllodb will first try to insert into `v3`. Insertion into `v3` is OK, so rule 1.2 will complete the INSERT statement successfully.
 (Inserting into `v2` is also possible, but `v2` will not be selected, since the insertion candidates are ordered by version.
 
 ```sql
