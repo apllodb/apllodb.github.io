@@ -117,7 +117,7 @@ So far, we've learned Projection (specifying the columns to fetch immediately af
 - `ORDER BY`
 - `JOIN`
 
-The same rule applies to the column specifications that appear in
+The same rules apply to the columns that appear in the above clauses.
 By rule 3, NULL may appear but these operations have defined behavior as SQL standard when NULL appears[^1], and return the result according to that specifications.
 
 ```sql
