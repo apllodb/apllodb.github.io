@@ -48,7 +48,7 @@ In the next section, we will explain how DML such as `SELECT` and `INSERT` behav
 
 ## SELECT behavior
 
-If the `SELECT` target table is `t`, all versions (not `DROP TABLE` deactivated) will be processed according to the following rules.
+When the `SELECT` target table is `t`, all versions (not deactivated via `DROP TABLE`) will be processed according to the following rules.
 
 - **(Rule 1)** Error if the column `c` of the requested table `t` in the `SELECT` statement does not exist in any version of `t`.
 - **(Rule 2)** If `c` of `t` exists in some version of `t`, the record in that version returns the column value for `c`.
