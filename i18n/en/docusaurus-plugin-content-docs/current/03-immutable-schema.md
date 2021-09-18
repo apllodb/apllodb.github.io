@@ -12,7 +12,7 @@ This chapter describes the specifications of Immutable DDL and Immutable DML, an
 
 ## Overview of Immutable DDL
 
-In DDL of a normal RDBMS, table definitions created with the `CREATE TABLE` statement can be modified with the `ALTER TABLE` statement or deleted with the `DROP TABLE` statement.
+In DDL of a normal RDBMS, table definitions created with the `CREATE TABLE` statement can be modified with the `ALTER TABLE` statement or dropped with the `DROP TABLE` statement.
 If a table definition is modified (deleted) with `ALTER TABLE` or `DROP TABLE`, the original table definition cannot be recovered.
 
 Immutable DDL makes this possible.
