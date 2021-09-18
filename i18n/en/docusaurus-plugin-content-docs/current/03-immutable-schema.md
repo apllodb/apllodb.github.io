@@ -284,7 +284,7 @@ Here is an overview of how these tables are referenced in a `SELECT` statement.
 2.
 Get the non-primary key column value of the record by joining it with the `T__v?` table.
 
-### For match search and range search by non-primary key.
+### Exact match search and range search by non-primary key.
 
 Indexes on non-primary keys are not supported in apllodb v0.1. Current apllodb performs performs full scan and then filter-out record that do not match the search criteria.
 
