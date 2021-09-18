@@ -150,7 +150,7 @@ When the table to be `INSERT`ed is `t`, all versions (not deactivated by `DROP T
   - **(Rule 1.1)** Error if a table-wide constraint is violated.
   - **(Rule 1.2)** Otherwise, insert into that version completes successfully.
 - **(Rule 2)** If rule 1 does not work for one version, choose a smaller version and repeat.
-- **(Rule 3)** If the insertion into `v1` does not complete successfully either, the execution of the `INSERT` statement will fail.
+- **(Rule 3)** If the insertion into `v1` does not complete successfully, the execution of the `INSERT` statement will fail.
 
 Let me explain with an example.
 Consider the case where the table `t` has the following three versions and a table-wide constraint
