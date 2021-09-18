@@ -140,7 +140,7 @@ SELECT c1, c2, c3 FROM t ORDER BY c2 DESC;
 | 2 | NULL | NULL | NULL
 ```
 
-[^1] `GROUP BY nullable_column` and so on have different default behavior depending on the RDBMS processor, but apllodb v0.1 adopts PostgreSQL compliant semantics.
+[^1] `GROUP BY nullable_column`, for example, have different default behavior depending on RDBMS implementations. apllodb v0.1 adopts PostgreSQL compliant semantics.
 
 ### Behavior on INSERT
 
