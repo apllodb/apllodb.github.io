@@ -38,7 +38,6 @@ Next, let's look at an example of `DROP COLUMN`.
 
 _Quoted from ["Introduction to apllodb" slides](https://docs.google.com/presentation/d/e/2PACX-1vTxGlW6UwmR-fHAIki1IPb7zFy7mQ0WRBFywsN_3S5jm6CdekF9qhxT3DYezBzHtx5S1bX5XiHeOACk/pub?start=false&loop=false&delayms=3000)_.
 
-In a normal RDBMS, the column values will also disappear from the existing records.
 In a normal RDBMS, column values will also disappear from existing records. There is nothing wrong with this behavior, but in the case of digital document management, there may be a case where you don't want to enter this column anymore, but want to keep the column values you have entered so far.
 In this case, Immutable DDL can be useful. Even if you delete a column from a table definition, the table definition and records before the column deletion will remain in `v1`.
 
