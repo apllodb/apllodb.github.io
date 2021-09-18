@@ -61,7 +61,7 @@ Consider the following three versions and records of table `t`.
 v3
 | c1 | c2 |
 |----|----|
-| 1 | 10 |
+| 1  | 10 |
 
 v2
 | c1 | c2 | c3 |
