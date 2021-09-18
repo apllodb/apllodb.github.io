@@ -111,7 +111,7 @@ SELECT c1, c2, c3 FROM t;
 
 Rules 2 and 3 have been applied.
 
-Now that we've looked at Projection (specifying the columns to fetch immediately after the `SELECT`), let's look at
+So far, we've learned Projection (specifying the columns to fetch immediately after the `SELECT`), let's look at
 
 - `WHERE`
 - `GROUP BY`
