@@ -135,9 +135,9 @@ SELECT c1, c2, c3 FROM t ORDER BY c2 DESC;
 -- result (NULL is subordinate to any value)
 | c1 | c2 | c3 |
 |----|------|------|
-| 3 | 30 | 33 | 1 | 10 | NULL
-| 1 | 10 | NULL | 2
-| 2 | NULL | NULL | NULL
+| 3  | 30   | 33   |
+| 1  | 10   | NULL |
+| 2  | NULL | NULL |
 ```
 
 [^1] `GROUP BY nullable_column`, for example, have different default behavior depending on RDBMS implementations. apllodb v0.1 adopts PostgreSQL compliant semantics.
