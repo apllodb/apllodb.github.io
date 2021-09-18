@@ -16,7 +16,7 @@ In DDL of a normal RDBMS, table definitions created with the `CREATE TABLE` stat
 If a table definition is modified (dropped) with `ALTER TABLE` or `DROP TABLE`, the original table definition cannot be recovered.
 
 Immutable DDL makes this possible.
-In Immutable DDL, a table has a **version**.
+In Immutable DDL, a table has **versions**.
 
 - `CREATE TABLE t ... ` creates `v1` of table `t`.
 - Then `ALTER TABLE t ... ` creates `v2` of table `t`. The table definition of `v1` and the records associated with `v1` will remain unchanged.
