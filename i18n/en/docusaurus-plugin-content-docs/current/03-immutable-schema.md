@@ -113,10 +113,10 @@ Rules 2 and 3 have been applied.
 
 Now that we've looked at Projection (specifying the columns to fetch immediately after the `SELECT`), let's look at
 
-- `WHERE`.
-- `GROUP BY`.
-- `ORDER BY`.
-- `JOIN`.
+- `WHERE`
+- `GROUP BY`
+- `ORDER BY`
+- `JOIN`
 
 The same rule applies to the column specifications that appear in
 By rule 3, NULL may appear, but these operations have a defined behavior as SQL standard when NULL appears as a value[^1], and return the result according to that behavior.
