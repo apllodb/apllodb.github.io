@@ -245,7 +245,7 @@ The figure above shows a setup where table `T` has two versions, `v1` and `v2`.
 
 The role of each table is as follows
 
-- Real table across all tables
+- Physical tables for all apllodb's tables
   - `_vtable_metadata`.
     - Manages the metadata for the table.
       - Currently, constraints (PRIMARY KEY, UNIQUE) of the whole table are used as metadata.
