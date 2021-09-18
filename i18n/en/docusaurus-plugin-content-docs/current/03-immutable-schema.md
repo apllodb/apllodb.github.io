@@ -104,9 +104,9 @@ SELECT c1, c2, c3 FROM t;
 -- result (order indefinite)
 | c1 | c2 | c3 |
 |----|------|------|
-| 1 | 10 | NULL | 3
-| 3 | 30 | 33 | NULL
-| 2 | NULL | NULL
+| 1  | 10 | NULL |
+| 3  | 30 | 33   |
+| 2  | NULL | NULL |
 ```
 
 Rules 2 and 3 have been applied.
