@@ -248,7 +248,7 @@ The role of each table is as follows
 - Physical tables for all apllodb's tables
   - `_vtable_metadata`.
     - Manages the metadata for the table.
-      - Currently, constraints (PRIMARY KEY, UNIQUE) of the whole table are used as metadata.
+      - Currently, constraints table-wide constraints (PRIMARY KEY, UNIQUE) for metadata.
   - `_version_metadata`.
     - Manage metadata for each version.
       - Version number
