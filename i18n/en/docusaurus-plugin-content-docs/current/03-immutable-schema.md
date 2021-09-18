@@ -239,7 +239,7 @@ In this section, we will explain how to realize Immutable Schema based on existi
 
 ![ER diagram for Immutable Schema realization](/img/apllodb-0.1.0-SQLite-ER-diagram.svg)
 
-We will set up a table as shown in the above figure in the existing RDBMS.
+We will set up tables as shown in the above figure in the existing RDBMS.
 The layer with blue background is the real tables that need to be created for one table `T` in Immutable Schema.
 The figure above shows a setup where table `T` has two versions, `v1` and `v2`.
 
