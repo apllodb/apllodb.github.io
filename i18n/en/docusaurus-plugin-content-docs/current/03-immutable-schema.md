@@ -152,7 +152,7 @@ When the table to be `INSERT`ed is `t`, all versions (not deactivated by `DROP T
 - **(Rule 2)** If rule 1 does not work for one version, choose a smaller version and repeat.
 - **(Rule 3)** If the insertion into `v1` does not complete successfully, the execution of the `INSERT` statement will fail.
 
-Let me explain with an example.
+Let's explain with an example.
 Consider the case where the table `t` has the following three versions and a table-wide constraint
 
 - v3
