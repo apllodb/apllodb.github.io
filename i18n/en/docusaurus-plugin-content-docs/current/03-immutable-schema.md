@@ -10,7 +10,7 @@ Immutable Schema enables the organization of new information obtained through ob
 
 This chapter describes the specifications of Immutable DDL and Immutable DML, and some implementation details in v0.1.
 
-## Overview of Immutable DDL
+## Immutable DDL Overview
 
 In DDL of a normal RDBMS, table definitions created with the `CREATE TABLE` statement can be modified with the `ALTER TABLE` statement or dropped with the `DROP TABLE` statement.
 If a table definition is modified (dropped) with `ALTER TABLE` or `DROP TABLE`, the original table definition cannot be recovered.
