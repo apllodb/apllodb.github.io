@@ -270,8 +270,8 @@ Here is an overview of how these tables are referenced in a `SELECT` statement.
 
 ### Full scan case
 
-1. browse the `T__navi` table and extract the record with the highest revision number for each primary key value. 2.
-Get the non-primary key column values of those records by joining them with the `T__v?` table.
+1. Browse the `T__navi` table and extract the record with the highest revision number for each primary key value.
+2. Get the non-primary key column values of those records by joining them with the `T__v?` table.
 
 ### For match search by primary key. 1.
 
