@@ -167,7 +167,7 @@ Consider the case where the table `t` has the following three versions and a tab
 - Table-wide constraints
   - `id`: PRIMARY KEY
 
-Let's look at a few `INSERT` statements and their results in this case.
+Let's look at a few `INSERT` statements and their results.
 
 ```sql
 INSERT INTO t (c1, c2) VALUES (1, 10);
