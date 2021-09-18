@@ -118,7 +118,7 @@ So far, we've learned Projection (specifying the columns to fetch immediately af
 - `JOIN`
 
 The same rule applies to the column specifications that appear in
-By rule 3, NULL may appear, but these operations have a defined behavior as SQL standard when NULL appears as a value[^1], and return the result according to that behavior.
+By rule 3, NULL may appear but these operations have defined behavior as SQL standard when NULL appears[^1], and return the result according to that specifications.
 
 ```sql
 SELECT c1, c2, c3 FROM t WHERE c2 > 15;
